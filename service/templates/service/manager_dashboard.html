@@ -1,0 +1,53 @@
+{% extends "service/manager_base.html" %}
+
+{% block title %}Панель менеджера{% endblock %}
+
+{% block content %}
+
+<h2>Панель менеджера</h2>
+
+<p>Здравствуйте, {{ request.user.username }}!</p>
+
+<div class="statistics">
+    <div class="stat">
+        <h3>Всего рассылок</h3>
+        <p>{{ total_mailings }}</p>
+        <div class="stat">
+    <h3>Успешные попытки</h3>
+    <p>{{ successful_attempts }}</p>
+</div>
+
+<div class="stat">
+    <h3>Неудачные попытки</h3>
+    <p>{{ failed_attempts }}</p>
+</div>
+
+<div class="stat">
+    <h3>Отправленные сообщения</h3>
+    <p>{{ sent_messages }}</p>
+</div>
+
+<div class="stat">
+    <h3>Всего попыток</h3>
+    <p>{{ total_attempts }}</p>
+</div>
+
+    </div>
+
+    <div class="stat">
+        <h3>Активные рассылки</h3>
+        <p>{{ active_mailings }}</p>
+    </div>
+
+    <div class="stat">
+        <h3>Получатели</h3>
+        <p>{{ total_recipients }}</p>
+    </div>
+
+    <div class="stat">
+        <h3>Пользователи</h3>
+        <p>{{ total_users }}</p>
+    </div>
+</div>
+
+{% endblock %}

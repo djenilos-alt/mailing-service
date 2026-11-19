@@ -1,0 +1,35 @@
+{% extends "service/manager_base.html" %}
+
+{% block title %}Все получатели{% endblock %}
+
+{% block content %}
+
+<h2>Все получатели</h2>
+
+{% if recipients %}
+<table>
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Имя</th>
+            <th>Комментарий</th>
+            <th>Владелец</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for recipient in recipients %}
+        <tr>
+            <td>{{ recipient.email }}</td>
+            <td>{{ recipient.full_name|default:"—" }}</td>
+            <td>{{ recipient.comment|default:"—" }}</td>
+            <td>{{ recipient.owner.username }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Получателей пока нет.</p>
+{% endif %}
+
+{% endblock %}

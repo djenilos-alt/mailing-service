@@ -1,0 +1,53 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Рассылки{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Мои рассылки</h2>
+    <a href="{% url 'mailing:mailing_create' %}" class="btn btn-primary">
+        Создать рассылку
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% for mailing in mailings %}
+            <div class="border-bottom py-3">
+                <h5>Рассылка №{{ mailing.pk }}</h5>
+
+                <p>
+                    <strong>Сообщение:</strong>
+                    {{ mailing.message.subject }}
+                </p>
+
+                <p>
+                    <strong>Начало:</strong>
+                    {{ mailing.start_time|date:"d.m.Y H:i" }}
+                </p>
+
+                <p>
+                    <strong>Окончание:</strong>
+                    {{ mailing.end_time|date:"d.m.Y H:i" }}
+                </p>
+
+                <p>
+                    <strong>Статус:</strong>
+                    <span class="badge bg-primary">{{ mailing.status }}</span>
+                </p>
+
+                <a href="{% url 'mailing:mailing_detail' mailing.pk %}"
+                   class="btn btn-sm btn-info">Подробнее</a>
+
+                <a href="{% url 'mailing:mailing_update' mailing.pk %}"
+                   class="btn btn-sm btn-warning">Изменить</a>
+
+                <a href="{% url 'mailing:mailing_delete' mailing.pk %}"
+                   class="btn btn-sm btn-danger">Удалить</a>
+            </div>
+        {% empty %}
+            <p>Рассылок пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

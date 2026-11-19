@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Панель менеджера{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            color: #333;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f1f1f1;
+        }
+        a { color: #1756a9; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th { background: #f1f1f1; }
+        button {
+            padding: 7px 12px;
+            cursor: pointer;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            background: #edf5ff;
+        }
+        .statistics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat {
+            padding: 20px;
+            border: 1px solid #ddd;
+            min-width: 160px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Сервис управления рассылками</h1>
+
+    <nav>
+        <a href="{% url 'service:manager_dashboard' %}">Главная менеджера</a>
+        <a href="{% url 'service:manager_mailings' %}">Все рассылки</a>
+        <a href="{% url 'service:manager_recipients' %}">Все получатели</a>
+        <a href="{% url 'service:manager_users' %}">Пользователи</a>
+        <a href="{% url 'service:home' %}">Личный кабинет</a>
+    </nav>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>

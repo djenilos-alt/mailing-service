@@ -1,0 +1,122 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Личный кабинет</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Всего рассылок</h5>
+                <h2>{{ total_mailings }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Активные рассылки</h5>
+                <h2>{{ active_mailings }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Получатели</h5>
+                <h2>{{ total_recipients }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row mb-4">
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5>Успешные попытки</h5>
+                <h2>{{ successful_attempts }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5>Неудачные попытки</h5>
+                <h2>{{ failed_attempts }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h5>Отправленные сообщения</h5>
+                <h2>{{ sent_messages }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h4 class="mb-3">Последние рассылки</h4>
+
+        {% if recent_mailings %}
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th>Номер</th>
+                            <th>Сообщение</th>
+                            <th>Начало</th>
+                            <th>Окончание</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for mailing in recent_mailings %}
+                            <tr>
+                                <td>{{ mailing.pk }}</td>
+                                <td>{{ mailing.message.subject }}</td>
+                                <td>{{ mailing.start_time|date:"d.m.Y H:i" }}</td>
+                                <td>{{ mailing.end_time|date:"d.m.Y H:i" }}</td>
+                                <td>{{ mailing.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        {% else %}
+
+            <p class="text-muted">
+                У вас пока нет созданных рассылок.
+            </p>
+
+            <a href="{% url 'mailing:mailing_create' %}"
+               class="btn btn-primary">
+                Создать рассылку
+            </a>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

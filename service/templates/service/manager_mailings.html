@@ -1,0 +1,59 @@
+{% extends "service/manager_base.html" %}
+
+{% block title %}Все рассылки{% endblock %}
+
+{% block content %}
+
+<h2>Все рассылки</h2>
+
+{% if mailings %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Владелец</th>
+            <th>Тема сообщения</th>
+            <th>Начало</th>
+            <th>Окончание</th>
+            <th>Статус</th>
+            <th>Состояние</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for mailing in mailings %}
+        <tr>
+            <td>{{ mailing.pk }}</td>
+            <td>{{ mailing.owner.username }}</td>
+            <td>{{ mailing.message.subject }}</td>
+            <td>{{ mailing.start_time|date:"d.m.Y H:i" }}</td>
+            <td>{{ mailing.end_time|date:"d.m.Y H:i" }}</td>
+            <td>{{ mailing.get_status_display }}</td>
+            <td>
+                {% if mailing.is_active %}
+                    Включена
+                {% else %}
+                    Отключена
+                {% endif %}
+            </td>
+            <td>
+                {% if mailing.is_active %}
+                <form method="post"
+                      action="{% url 'service:manager_disable_mailing' mailing.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Отключить</button>
+                </form>
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Рассылок пока нет.</p>
+{% endif %}
+
+{% endblock %}

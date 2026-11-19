@@ -1,0 +1,76 @@
+{% extends "service/manager_base.html" %}
+
+{% block title %}Пользователи{% endblock %}
+
+{% block content %}
+
+<h2>Все пользователи</h2>
+
+{% if users %}
+<table>
+    <thead>
+        <tr>
+            <th>Логин</th>
+            <th>Email</th>
+            <th>Email подтверждён</th>
+            <th>Менеджер</th>
+            <th>Статус</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for account in users %}
+        <tr>
+            <td>{{ account.username }}</td>
+            <td>{{ account.email }}</td>
+
+            <td>
+                {% if account.email_verified %}
+                    Да
+                {% else %}
+                    Нет
+                {% endif %}
+            </td>
+
+            <td>
+                {% if account.is_manager %}
+                    Да
+                {% else %}
+                    Нет
+                {% endif %}
+            </td>
+
+            <td>
+                {% if account.is_active %}
+                    Активен
+                {% else %}
+                    Заблокирован
+                {% endif %}
+            </td>
+
+            <td>
+                {% if not account.is_superuser and not account.is_staff and not account.is_manager and account.pk != request.user.pk %}
+                    <form method="post"
+                          action="{% url 'service:manager_toggle_user' account.pk %}">
+                        {% csrf_token %}
+
+                        {% if account.is_active %}
+                            <button type="submit">Заблокировать</button>
+                        {% else %}
+                            <button type="submit">Разблокировать</button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Пользователей пока нет.</p>
+{% endif %}
+
+{% endblock %}

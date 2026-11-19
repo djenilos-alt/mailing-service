@@ -1,0 +1,17 @@
+{% extends "mailing/base.html" %}
+
+{% block content %}
+<h2>{{ message.subject }}</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <p>{{ message.body|linebreaks }}</p>
+
+        <a href="{% url 'mailing:message_update' message.pk %}"
+           class="btn btn-warning">Изменить</a>
+
+        <a href="{% url 'mailing:message_list' %}"
+           class="btn btn-secondary">Назад</a>
+    </div>
+</div>
+{% endblock %}

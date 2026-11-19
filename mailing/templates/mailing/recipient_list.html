@@ -1,0 +1,35 @@
+{% extends "mailing/base.html" %}
+
+{% block title %}Клиенты{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Получатели рассылки</h2>
+    <a href="{% url 'mailing:recipient_create' %}" class="btn btn-primary">
+        Добавить клиента
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% for recipient in recipients %}
+            <div class="border-bottom py-3">
+                <h5>{{ recipient.full_name }}</h5>
+                <p class="mb-1">{{ recipient.email }}</p>
+                <p class="text-muted">{{ recipient.comment }}</p>
+
+                <a href="{% url 'mailing:recipient_detail' recipient.pk %}"
+                   class="btn btn-sm btn-info">Подробнее</a>
+
+                <a href="{% url 'mailing:recipient_update' recipient.pk %}"
+                   class="btn btn-sm btn-warning">Изменить</a>
+
+                <a href="{% url 'mailing:recipient_delete' recipient.pk %}"
+                   class="btn btn-sm btn-danger">Удалить</a>
+            </div>
+        {% empty %}
+            <p>Клиентов пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
